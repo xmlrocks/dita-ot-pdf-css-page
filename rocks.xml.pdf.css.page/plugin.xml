@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="rocks.xml.pdf.css.page">
+    <feature extension="dita.conductor.transtype.check" value="pdf-css-page"/>
+    <feature extension="dita.transtype.print" value="pdf-css-page"/>
+    <feature extension="dita.conductor.target.relative" file="integrator.xml"/>
+    <feature extension="depend.preprocess.copy-image.pre" value="pdf-css-page.image.dir.init"/>
+    <transtype name="pdf-css-page" extends="base" desc="PDF with CSS">
+        <param name="pdf.formatter" type="enum"
+               desc="Specified the PDF formatter.">
+            <val default="true">pdfreactor</val>
+            <val>vivliostyle</val>
+        </param>
+        <param name="pdf.formatter.path" type="file"
+               desc="Specifies the location of the PDF formatter's executable."/>
+        <param name="css.file" type="file"
+               desc="Specifies the location of the CSS file."/>
+        <param name="index" type="enum"
+               desc="Specifies whether to generate Index.">
+            <val default="true">true</val>
+            <val>false</val>
+        </param>
+        <param name="toc" type="enum"
+               desc="Specifies whether to generate Table of Contents.">
+            <val default="true">true</val>
+            <val>false</val>
+        </param>
+    </transtype>
+    <require plugin="org.dita.xhtml"/>
+    <require plugin="org.dita.pdf2"/>
+</plugin>

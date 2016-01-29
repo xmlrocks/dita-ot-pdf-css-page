@@ -1,0 +1,130 @@
+/***************************************************
+ * Page
+ ***************************************************/
+
+@page {
+  margin: 10%;
+}
+
+@page:first {
+  @bottom-left {
+    border-top: none;
+    color: transparent;
+  }
+  @bottom-right {
+    border-top: none;
+    color: transparent;
+  }
+  @top-right {
+    color: transparent;
+  }
+}
+
+@page:right {
+  @bottom-left {
+    margin: 10pt 0 30pt 0;
+    border-top: .25pt solid #666;
+    font-size: 9pt;
+    color: #333;
+    content: string(book-chapter);
+  }
+  @bottom-right {
+    margin: 10pt 0 30pt 0;
+    border-top: .25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+}
+
+@page:left {
+  @bottom-right {
+    margin: 10pt 0 30pt 0;
+    border-top: .25pt solid #666;
+    content: string(sub-chapter);
+    font-size: 9pt;
+    color: #333;
+  }
+  @bottom-left {
+    margin: 10pt 0 30pt 0;
+    border-top: .25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+}
+
+div.book-title {
+  break-after: always;
+}
+
+div.book-title h1.title-page {
+  border-bottom: none;
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  width: 100%;
+  font-size: 200%;
+  string-set: book-title self;
+}
+
+@media screen {
+  div.toc a {
+    color: gray;
+  }
+}
+
+@media print {
+  div.toc a,
+  div.index a {
+    color: black;
+    text-decoration: none;
+  }
+  div.toc a::after {
+    content: leader(dotted) target-counter(-ro-attr(href url), page);
+  }
+  div.index a::after {
+    content: target-counter(-ro-attr(href url), page);
+  }
+}
+
+div.toc {
+  break-after: always;
+}
+
+div.toc li.toc-heading-1 {
+  font-weight: bold;
+  font-size: 125%;
+  padding-top: 5px;
+}
+
+div.toc li.toc-heading-2 {
+  font-weight: normal;
+  padding-bottom: 0px;
+}
+
+div.toc > h2 {
+  break-before: avoid;
+}
+
+div.toc div {
+  margin-bottom: 1.5pt;
+}
+
+div.toc ul,
+div.index ul {
+  list-style-type: none;
+}
+
+h1 {
+  border-bottom: .25pt solid #666;
+  break-before: always;
+  text-align: right;
+  string-set: book-chapter self;
+}
+
+h2 {
+  string-set: sub-chapter self;
+}
+
+div.index h3 {
+  font-weight: bold;
+}

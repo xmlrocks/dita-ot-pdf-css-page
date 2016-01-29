@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir=".">
+
+    <description>Generate merged XML file.</description>
+
+    <target name="map2pdf-css-page.merged" depends="pdf-css-page.dita2pdf2.init,
+                                                    build-init,
+                                                    preprocess,
+                                                    pdf-css-page.map2pdf2"/>
+
+    <target name="pdf-css-page.dita2pdf2.init">
+        <dita-ot-fail id="PDFX012F">
+            <condition>
+                <and>
+                    <isset property="pdf.formatter"/>
+                </and>
+            </condition>
+            <param name="1" value="${pdf.formatter}"/>
+        </dita-ot-fail>
+        <dita-ot-fail id="DOTA066F">
+            <condition>
+                <and>
+                    <isset property="args.xsl.pdf"/>
+                    <not>
+                        <available file="${args.xsl.pdf}" type="file"/>
+                    </not>
+                </and>
+            </condition>
+            <param name="1" location="${args.xsl.pdf}"/>
+        </dita-ot-fail>
+        <condition property="args.rellinks" value="nofamily">
+            <not>
+                <isset property="args.rellinks"/>
+            </not>
+        </condition>
+    </target>
+
+    <target name="pdf-css-page.map2pdf2" unless="noMap">
+        <dirname property="dita.temp.dir.fullpath" file="${dita.temp.dir}${file.separator}dummy.file"/>
+
+        <pipeline message="topicmerge" taskname="topic-merge"
+                  inputmap="${dita.temp.dir.fullpath}${file.separator}${user.input.file}"
+                  tempdir="${dita.temp.dir.fullpath}">
+            <module class="org.dita.dost.module.TopicMergeModule">
+                <param name="output"
+                       location="${dita.temp.dir.fullpath}${file.separator}${dita.map.filename.root}_MERGED.xml"/>
+                <param name="style" location="${dita.plugin.org.dita.pdf2.dir}/xsl/common/topicmerge.xsl"/>
+            </module>
+        </pipeline>
+
+        <antcall target="pdf-css-page.publish.map.pdf"/>
+    </target>
+
+    <target name="pdf-css-page.publish.map.pdf" depends="transform.topic2pdf.init,
+                                                         publish.map.pdf.init,
+                                                         pdf-css-page.transform.topic2pdf"/>
+
+    <target name="pdf-css-page.transform.topic2pdf" depends="copyCoreArtwork,
+                                                             pdf-css-page.transform.topic2fo"/>
+
+    <target name="pdf-css-page.transform.topic2fo" depends="transform.topic2fo.init,
+                                                            transform.topic2fo.index,
+                                                            transform.topic2fo.flagging"/>
+
+</project>
