@@ -73,8 +73,7 @@ div.book-title h1.title-page {
 }
 
 @media print {
-  div.toc a,
-  div.index a {
+  a {
     color: black;
     text-decoration: none;
   }
