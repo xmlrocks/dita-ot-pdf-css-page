@@ -14,29 +14,41 @@
         <!-- Title processing - special handling for short descriptions -->
         <title>
             <xsl:call-template name="gen-user-panel-title-pfx"/> <!-- hook for a user-XSL title prefix -->
-            <xsl:variable name="maintitle">
-                <xsl:apply-templates select="/*[contains(@class, ' topic/topic ')]/*[contains(@class, ' topic/title ')]"
-                                     mode="text-only"/>
-            </xsl:variable>
-            <xsl:variable name="ditamaintitle">
-                <xsl:apply-templates
-                        select="opentopic:map/*[contains(@class, ' topic/title ')]"
-                        mode="text-only"/>
-            </xsl:variable>
-            <xsl:choose>
-                <xsl:when test="string-length($maintitle) > 0">
-                    <xsl:value-of select="normalize-space($maintitle)"/>
-                </xsl:when>
-                <xsl:when test="string-length($ditamaintitle) > 0">
-                    <xsl:value-of select="normalize-space($ditamaintitle)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:text>***</xsl:text>
-                    <xsl:apply-templates select="." mode="ditamsg:no-title-for-topic"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:call-template name="gen-book-title"/>
         </title>
         <xsl:value-of select="$newline"/>
+    </xsl:template>
+
+    <xsl:template name="gen-book-title">
+        <xsl:variable name="maintitle">
+            <xsl:apply-templates select="/*[contains(@class, ' topic/topic ')]/*[contains(@class, ' topic/title ')]"
+                                 mode="text-only"/>
+        </xsl:variable>
+        <xsl:variable name="ditamaintitle">
+            <xsl:apply-templates
+                    select="opentopic:map/*[contains(@class, ' topic/title ')]"
+                    mode="text-only"/>
+        </xsl:variable>
+        <xsl:variable name="maptitle">
+            <xsl:apply-templates
+                    select="/*[contains(@class, ' map/map ')]/@title"
+                    mode="text-only"/>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="string-length($maintitle) > 0">
+                <xsl:value-of select="normalize-space($maintitle)"/>
+            </xsl:when>
+            <xsl:when test="string-length($ditamaintitle) > 0">
+                <xsl:value-of select="normalize-space($ditamaintitle)"/>
+            </xsl:when>
+            <xsl:when test="string-length($maptitle) > 0">
+                <xsl:value-of select="normalize-space($maptitle)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>***</xsl:text>
+                <xsl:apply-templates select="." mode="ditamsg:no-title-for-topic"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="*" mode="chapterBody">
@@ -61,8 +73,7 @@
     <xsl:template name="create-book-title">
         <div class="book-title">
             <h1 class="title-page">
-                <xsl:apply-templates mode="text-only"
-                                     select="opentopic:map/*[contains(@class, ' topic/title ')]"/>
+                <xsl:call-template name="gen-book-title"/>
             </h1>
         </div>
     </xsl:template>
