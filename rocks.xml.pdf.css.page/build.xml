@@ -111,7 +111,7 @@
 
     <target name="pdf-css-page.dita2html">
         <property name="xsl.file"
-                  value="${dita.plugin.rocks.xml.pdf.css.page.dir}${file.separator}xslt${file.separator}import.xsl"/>
+                  value="${dita.plugin.rocks.xml.pdf.css.page.dir}${file.separator}xslt${file.separator}dita2pdf-css-page-import.xsl"/>
 
         <condition property="generate.index" value="true()" else="false()">
             <istrue value="${index}"/>
