@@ -28,7 +28,7 @@
                                               prepare.common.css,
                                               run.pdfreactor, run.vivliostyle"/>
 
-    <target name="dita2pdf-css-page.init" depends="check.formatter, 
+    <target name="dita2pdf-css-page.init" depends="check.formatter, check.formatter.path,
                                                    check.pdfreactor, check.vivliostyle,
                                                    check.css.file"/>
 
@@ -40,6 +40,16 @@
                         <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
                         <equals arg1="${html.pdf.formatter}" arg2="pdfreactor" casesensitive="false"/>
                     </or>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+    <target name="check.formatter.path">
+        <fail message="Property &quot;html.pdf.formatter.path&quot; is not set. Please, set path to the PDF formatter.">
+            <condition>
+                <not>
+                    <isset property="html.pdf.formatter.path"/>
                 </not>
             </condition>
         </fail>
