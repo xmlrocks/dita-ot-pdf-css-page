@@ -17,7 +17,7 @@ Run DITA-OT with `pdf-css-page` transformation type.
 
 ### Plugin parameters:
 
-- `html.pdf.formatter.path` – PDF formatter installation path.
+- `html.pdf.formatter.path` – PDF formatter installation path (`PDFreactor\lib\pdfreactor.jar` or `vivliostyle\vivliostyle_formatter_core.exe`).
 
 ### Optional parameters:
 
