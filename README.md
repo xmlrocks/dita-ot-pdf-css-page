@@ -9,7 +9,8 @@ DITA Open Toolkit plugin to generate PDF output using CSS Paged Media.
     * [PDFReactor 8](http://www.pdfreactor.com/)
     * [Vivliostyle](http://vivliostyle.com/)
 2. Download the plugin from [GitHub](https://github.com/xmlrocks/dita-ot-pdf-css-page/archive/master.zip).
-3. Follow instructions at [Installing plug-ins](http://www.dita-ot.org/2.2/user-guide/plugins-installing.html) DITA-OT documentation page. 
+3. Unzip and copy `rocks.xml.pdf.css.page` folder to the DITA-OT `plugins` directory.
+4. Follow instructions at [Installing plug-ins](http://www.dita-ot.org/2.2/user-guide/plugins-installing.html) DITA-OT documentation page. 
 
 ## Running the plugin
 
