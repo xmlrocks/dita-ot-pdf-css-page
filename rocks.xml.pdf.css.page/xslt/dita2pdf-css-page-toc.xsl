@@ -28,58 +28,37 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')]" priority="10">
-        <ul class="bookmap/part">
-            <xsl:choose>
-                <xsl:when test="*[contains(@class, ' map/topicmeta ')]">
-                    <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')],
-                                                 *[contains(@class, ' map/topicref ')]"/>
-                </xsl:when>
-                <xsl:when test="exists(@navtitle)">
-                    <li class="toc-heading-1">
-                        <a href="#{@id}">
-                            <xsl:value-of select="@navtitle"/>
-                        </a>
-                        <ul>
-                            <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')],
-                                                         *[contains(@class, ' map/topicref ')]"/>
-                        </ul>
-                    </li>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')],
-                                                 *[contains(@class, ' map/topicref ')]"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </ul>
+    <xsl:template match="opentopic:map/*[contains(@class, ' bookmap/frontmatter ')]" priority="20">
+        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' map/topicref ')]">
-        <xsl:if test="exists(element()/*[contains(@class, ' map/linktext ')])">
-            <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
-            <xsl:if test="exists(*[contains(@class, ' map/topicref ')])">
-                <li class="toc-heading-2">
-                    <ul>
-                        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
-                    </ul>
+    <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')] |
+                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')]"
+                  priority="10">
+        <xsl:if test="*[contains(@class, ' map/topicmeta ')]">
+            <ul class="bookmap/part">
+                <li class="toc-heading-1">
+                    <a href="#{@id}">
+                        <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
+                    </a>
+                    <xsl:if test="*[contains(@class, ' map/topicref ')]">
+                        <ul>
+                            <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
+                        </ul>
+                    </xsl:if>
                 </li>
-            </xsl:if>
+            </ul>
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')]/*[contains(@class, ' map/topicmeta ')]"
-                  priority="10">
-        <li class="toc-heading-1">
-            <a href="#{parent::*/@id}">
-                <xsl:apply-templates select="*[contains(@class, ' map/linktext ')]"/>
-            </a>
-        </li>
+    <xsl:template match="*[contains(@class, ' map/topicmeta ')]">
+        <xsl:apply-templates select="*[contains(@class, ' map/linktext ')]"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' map/topicmeta ')]">
+    <xsl:template match="*[contains(@class, ' map/topicref ')]">
         <li class="toc-heading-2">
-            <a href="#{parent::*/@id}">
-                <xsl:apply-templates select="*[contains(@class, ' map/linktext ')]"/>
+            <a href="#{@id}">
+                <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
             </a>
         </li>
     </xsl:template>
