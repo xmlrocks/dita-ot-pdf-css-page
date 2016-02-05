@@ -60,6 +60,11 @@
             <a href="#{@id}">
                 <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
             </a>
+            <xsl:if test="*[contains(@class, ' map/topicref ')]">
+                <ul>
+                    <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
+                </ul>
+            </xsl:if>
         </li>
     </xsl:template>
 
