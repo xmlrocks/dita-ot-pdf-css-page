@@ -16,17 +16,17 @@
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/prolog ')]" mode="create-anchor">
-        <xsl:apply-templates select="*[contains(@class, ' topic/metadata ')]/
-                                     *[contains(@class, ' topic/keywords ')]/
-                                     opentopic-index:index.entry/
+        <xsl:apply-templates select="*[contains(@class, ' topic/metadata ')]//
+                                     *[contains(@class, ' topic/keywords ')]//
+                                     opentopic-index:index.entry//
                                      opentopic-index:refID"
                              mode="create-anchor"/>
     </xsl:template>
 
     <xsl:template mode="create-anchor"
-                  match="*[contains(@class, ' topic/metadata ')]/
-                         *[contains(@class, ' topic/keywords ')]/
-                         opentopic-index:index.entry/
+                  match="*[contains(@class, ' topic/metadata ')]//
+                         *[contains(@class, ' topic/keywords ')]//
+                         opentopic-index:index.entry//
                          opentopic-index:refID">
         <a id="{concat(@value, generate-id())}"/>
     </xsl:template>
@@ -76,15 +76,16 @@
         <p class="index-entry">
             <xsl:apply-templates select="opentopic-index:formatted-value"/>
             <xsl:text>: </xsl:text>
-            <xsl:variable name="ref-id" select="opentopic-index:refID/@value"/>
-            <xsl:for-each
-                    select="//opentopic-index:refID[not(ancestor::opentopic-index:index.groups) and @value = $ref-id]">
-                <a href="#{concat(@value, generate-id())}"/>
+            <xsl:variable name="context-ref-id" select="opentopic-index:refID/@value"/>
+            <xsl:for-each select="//opentopic-index:refID[not(ancestor::opentopic-index:index.groups) and
+                                  @value = $context-ref-id]">
+                <a href="#{concat($context-ref-id, generate-id())}"/>
                 <xsl:if test="position() ne last()">
                     <xsl:text>, </xsl:text>
                 </xsl:if>
             </xsl:for-each>
         </p>
+        <xsl:apply-templates select="opentopic-index:index.entry"/>
     </xsl:template>
 
     <xsl:template match="opentopic-index:formatted-value">
