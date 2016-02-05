@@ -3,17 +3,32 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:opentopic-index="http://www.idiominc.com/opentopic/index"
+                xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
                 exclude-result-prefixes="#all">
 
 
     <xsl:param name="generate-index" as="xs:boolean"/>
 
-    <xsl:template match="//reference//prolog">
-        <xsl:apply-templates mode="create-anchor"/>
+    <xsl:template
+            match="*[contains(@class, ' topic/title ') and following-sibling::*[contains(@class, ' topic/prolog ')]]">
+        <xsl:apply-templates select="following-sibling::*[contains(@class, ' topic/prolog ')]" mode="create-anchor"/>
+        <xsl:next-match/>
     </xsl:template>
 
-    <xsl:template match="metadata//keywords//opentopic-index:refID" mode="create-anchor">
-        <p id="{@value}"/>
+    <xsl:template match="*[contains(@class, ' topic/prolog ')]" mode="create-anchor">
+        <xsl:apply-templates select="*[contains(@class, ' topic/metadata ')]/
+                                     *[contains(@class, ' topic/keywords ')]/
+                                     opentopic-index:index.entry/
+                                     opentopic-index:refID"
+                             mode="create-anchor"/>
+    </xsl:template>
+
+    <xsl:template mode="create-anchor"
+                  match="*[contains(@class, ' topic/metadata ')]/
+                         *[contains(@class, ' topic/keywords ')]/
+                         opentopic-index:index.entry/
+                         opentopic-index:refID">
+        <a id="{concat(@value, generate-id())}"/>
     </xsl:template>
 
     <xsl:template match="opentopic-index:index.groups"/>
@@ -46,25 +61,36 @@
     <xsl:template match="opentopic-index:index.entry">
         <ul>
             <li>
-                <xsl:apply-templates/>
+                <xsl:call-template name="generate-links"/>
             </li>
         </ul>
     </xsl:template>
 
     <xsl:template match="opentopic-index:index.group/opentopic-index:index.entry" priority="10">
         <li>
-            <xsl:apply-templates/>
+            <xsl:call-template name="generate-links"/>
         </li>
     </xsl:template>
 
-    <xsl:template match="opentopic-index:formatted-value">
+    <xsl:template name="generate-links">
         <p class="index-entry">
-            <xsl:apply-templates/>
+            <xsl:apply-templates select="opentopic-index:formatted-value"/>
             <xsl:text>: </xsl:text>
-            <a href="#{following-sibling::opentopic-index:refID/@value}"/>
+            <xsl:variable name="ref-id" select="opentopic-index:refID/@value"/>
+            <xsl:for-each
+                    select="//opentopic-index:refID[not(ancestor::opentopic-index:index.groups) and @value = $ref-id]">
+                <a href="#{concat(@value, generate-id())}"/>
+                <xsl:if test="position() ne last()">
+                    <xsl:text>, </xsl:text>
+                </xsl:if>
+            </xsl:for-each>
         </p>
     </xsl:template>
 
-    <xsl:template match="opentopic-index:refID"/>
+    <xsl:template match="opentopic-index:formatted-value">
+        <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="opentopic-index:refID | ot-placeholder:indexlist"/>
 
 </xsl:stylesheet>
