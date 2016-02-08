@@ -72,13 +72,14 @@
         </li>
     </xsl:template>
 
+    <xsl:key name="index-refid" match="opentopic-index:refID" use="@value"/>
+
     <xsl:template name="generate-links">
         <p class="index-entry">
             <xsl:apply-templates select="opentopic-index:formatted-value"/>
             <xsl:text>: </xsl:text>
             <xsl:variable name="context-ref-id" select="opentopic-index:refID/@value"/>
-            <xsl:for-each select="//opentopic-index:refID[not(ancestor::opentopic-index:index.groups) and
-                                  @value = $context-ref-id]">
+            <xsl:for-each select="key('index-refid', $context-ref-id)[position() ne last()]">
                 <a href="#{concat($context-ref-id, generate-id())}"/>
                 <xsl:if test="position() ne last()">
                     <xsl:text>, </xsl:text>
