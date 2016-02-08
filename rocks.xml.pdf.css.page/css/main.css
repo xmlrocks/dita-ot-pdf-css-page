@@ -92,12 +92,12 @@ div.toc {
 div.toc li.toc-heading-1 {
   font-weight: bold;
   font-size: 125%;
-  padding-top: 5px;
+  padding-top: 10pt;
 }
 
 div.toc li.toc-heading-2 {
   font-weight: normal;
-  padding-bottom: 0px;
+  padding-bottom: 0pt;
 }
 
 div.toc > h2 {
@@ -114,9 +114,9 @@ div.index ul {
 }
 
 h1 {
-  border-bottom: .25pt solid #666;
+  font-size: 300%;
+  padding-bottom: 15pt;
   break-before: always;
-  text-align: right;
   string-set: book-chapter self;
 }
 
