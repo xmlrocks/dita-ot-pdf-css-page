@@ -4,6 +4,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:opentopic-index="http://www.idiominc.com/opentopic/index"
                 xmlns:opentopic="http://www.idiominc.com/opentopic"
+                xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot"
                 xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder"
                 exclude-result-prefixes="#all">
 
@@ -28,14 +29,16 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="opentopic:map/*[contains(@class, ' bookmap/frontmatter ')]" priority="20">
+    <xsl:template match="opentopic:map/*[contains(@class, ' bookmap/frontmatter ') or
+                                         contains(@class, ' mapgroup-d/topichead ')]" priority="20">
         <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
     </xsl:template>
 
     <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')] |
-                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')]"
+                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')] |
+                         *[contains(@class, ' mapgroup-d/topichead ')]/*[contains(@class, ' map/topicref ')]"
                   priority="10">
-        <xsl:if test="*[contains(@class, ' map/topicmeta ')]">
+        <xsl:if test="dita-ot:exist-linktext(.)">
             <ul class="bookmap/part">
                 <li class="toc-heading-1">
                     <a href="#{@id}">
@@ -51,21 +54,29 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:function name="dita-ot:exist-linktext" as="xs:boolean">
+        <xsl:param name="element" as="element()"/>
+
+        <xsl:sequence select="exists($element/*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' map/linktext ')])"/>
+    </xsl:function>
+
     <xsl:template match="*[contains(@class, ' map/topicmeta ')]">
         <xsl:apply-templates select="*[contains(@class, ' map/linktext ')]"/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' map/topicref ')]">
-        <li class="toc-heading-2">
-            <a href="#{@id}">
-                <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
-            </a>
-            <xsl:if test="*[contains(@class, ' map/topicref ')]">
-                <ul>
-                    <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
-                </ul>
-            </xsl:if>
-        </li>
+        <xsl:if test="dita-ot:exist-linktext(.)">
+            <li class="toc-heading-2">
+                <a href="#{@id}">
+                    <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
+                </a>
+                <xsl:if test="*[contains(@class, ' map/topicref ')]">
+                    <ul>
+                        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
+                    </ul>
+                </xsl:if>
+            </li>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' map/linktext ')]">
@@ -76,6 +87,6 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template match="ot-placeholder:toc"/>
+    <xsl:template match="ot-placeholder:toc | ot-placeholder:figurelist"/>
 
 </xsl:stylesheet>
