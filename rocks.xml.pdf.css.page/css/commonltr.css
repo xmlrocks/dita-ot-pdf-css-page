@@ -53,7 +53,6 @@ th,
 li {
   font-size: 10pt;
   line-height: 1.25;
-  color: #666666;
 }
 
 p {
@@ -97,7 +96,7 @@ th {
 
 th {
   text-align: center;
-  background-color: #f5f5f5;
+  padding: 0.2cm;
 }
 
 table.code,
