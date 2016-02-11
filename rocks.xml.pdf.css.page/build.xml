@@ -90,8 +90,8 @@
         <condition property="copy-image.todir" value="${dita.temp.dir}/${uplevels}" else="${output.dir}">
             <equals arg1="${generate.copy.outer}" arg2="1"/>
         </condition>
-        <copy todir="${dita.temp.dir}/${uplevels}" failonerror="false">
-            <dita-fileset format="html" />
+        <copy todir="${dita.temp.dir}/${uplevels}">
+            <fileset dir="${user.input.dir}" includesfile="${dita.temp.dir}/${imagefile}" />
         </copy>
     </target>
 
