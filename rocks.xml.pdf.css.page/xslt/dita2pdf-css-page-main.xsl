@@ -5,12 +5,6 @@
                 xmlns:ditamsg="http://dita-ot.sourceforge.net/ns/200704/ditamsg"
                 exclude-result-prefixes="#all">
 
-  <dita:extension id="xsl.transtype-epub" 
-    behavior="org.dita.dost.platform.ImportXSLAction" 
-    xmlns:dita="http://dita-ot.sourceforge.net"/>
-  
-  
-
     <xsl:template match="*[contains(@class, ' map/map ')]">
         <xsl:apply-templates select="." mode="root_element"/>
     </xsl:template>
