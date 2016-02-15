@@ -145,8 +145,8 @@
 
         <exec executable="${html.pdf.formatter.path}">
             <arg line="${xhtml.file}"/>
-            <arg line="-output=${output.file}"/>
-            <arg line="-style=${css.file}"/>
+            <arg line="--output=${output.file}"/>
+            <arg line="--style=${css.file}"/>
         </exec>
     </target>
 
