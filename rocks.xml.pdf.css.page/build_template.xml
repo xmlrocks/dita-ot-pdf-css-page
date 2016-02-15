@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="rocks.xml.pdf.css.page">
+<project name="rocks.xml.pdf.css.page"
+  xmlns:dita="http://dita-ot.sourceforge.net"
+  >
 
     <property name="html.pdf.formatter" value="pdfreactor"/>
 
@@ -131,6 +133,7 @@
             <param name="CSSPATH" expression="${user.csspath}" if="user.csspath"/>
             <param name="generate-index" expression="${generate.index}" type="XPATH_BOOLEAN"/>
             <param name="generate-toc" expression="${generate.toc}" type="XPATH_BOOLEAN"/>
+            <dita:extension id="xsl.pdf-css-page.xslt.param" behavior="org.dita.dost.platform.InsertAction"/>
         </xslt>
     </target>
 
@@ -147,6 +150,7 @@
             <arg line="${xhtml.file}"/>
             <arg line="--output=${output.file}"/>
             <arg line="--style=${css.file}"/>
+            <dita:extension id="xsl.pdf-css-page.vivlio.param" behavior="org.dita.dost.platform.InsertAction"/>
         </exec>
     </target>
 
@@ -156,6 +160,7 @@
             <arg line="-a"/>
             <arg line="${xhtml.file}"/>
             <arg line="${output.file}"/>
+            <dita:extension id="xsl.pdf-css-page.pdfreactor.param" behavior="org.dita.dost.platform.InsertAction"/>
         </java>
     </target>
 
