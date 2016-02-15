@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="rocks.xml.pdf.css.page">
+    
+    <extension-point id="xsl.pdf-css-page" name="PDF CSS pagination"/>
+  
+    <template file="build_template.xml"/>
+    <template file="xslt/dita2pdf-css-page-import_template.xsl"/>
+  
     <feature extension="dita.conductor.transtype.check" value="pdf-css-page"/>
     <feature extension="dita.transtype.print" value="pdf-css-page"/>
     <feature extension="dita.conductor.target.relative" file="integrator.xml"/>
