@@ -29,14 +29,27 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="opentopic:map/*[contains(@class, ' bookmap/frontmatter ') or
-                                         contains(@class, ' mapgroup-d/topichead ')]" priority="20">
+    <xsl:template match="opentopic:map/*[contains(@class, ' bookmap/frontmatter ')]" priority="30">
         <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
     </xsl:template>
 
+    <xsl:template match="*[contains(@class, ' mapgroup-d/topichead ') and @navtitle]" priority="20">
+        <ul class="bookmap/part">
+            <li class="toc-heading-1">
+                <a href="#{@id}">
+                    <xsl:apply-templates select="@navtitle"/>
+                </a>
+                <xsl:if test="*[contains(@class, ' map/topicref ')]">
+                    <ul>
+                        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
+                    </ul>
+                </xsl:if>
+            </li>
+        </ul>
+    </xsl:template>
+
     <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')] |
-                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')] |
-                         *[contains(@class, ' mapgroup-d/topichead ')]/*[contains(@class, ' map/topicref ')]"
+                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')]"
                   priority="10">
         <xsl:if test="dita-ot:exist-linktext(.)">
             <ul class="bookmap/part">
@@ -57,7 +70,8 @@
     <xsl:function name="dita-ot:exist-linktext" as="xs:boolean">
         <xsl:param name="element" as="element()"/>
 
-        <xsl:sequence select="exists($element/*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' map/linktext ')])"/>
+        <xsl:sequence
+                select="exists($element/*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' map/linktext ')])"/>
     </xsl:function>
 
     <xsl:template match="*[contains(@class, ' map/topicmeta ')]">
