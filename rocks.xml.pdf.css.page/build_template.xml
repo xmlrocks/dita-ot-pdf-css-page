@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="rocks.xml.pdf.css.page"
-  xmlns:dita="http://dita-ot.sourceforge.net"
-  >
+<project name="rocks.xml.pdf.css.page" xmlns:dita="http://dita-ot.sourceforge.net">
 
     <property name="html.pdf.formatter" value="pdfreactor"/>
 
@@ -27,7 +25,7 @@
                                               map2pdf-css-page.merged,
                                               topic2pdf-css-page.init, map2pdf-css-page.init,
                                               pdf-css-page.dita2html,
-                                              prepare.common.css,
+                                              prepare.common.css, prepare.common.javascript,
                                               run.pdfreactor, run.vivliostyle"/>
 
     <target name="dita2pdf-css-page.init" depends="check.formatter, check.formatter.path,
@@ -143,6 +141,12 @@
         <copy file="${commonltr.css.file}" todir="${dita.temp.dir}"/>
     </target>
 
+    <target name="prepare.common.javascript">
+        <property name="common.javascript.file"
+                  value="${dita.plugin.rocks.xml.pdf.css.page.dir}${file.separator}js${file.separator}index-unifier.js"/>
+        <copy file="${common.javascript.file}" todir="${dita.temp.dir}"/>
+    </target>
+
     <target name="run.vivliostyle" if="use.vivliostyle">
         <echo message="[WARN]: You are using Vivliostyle. Please notice that TOC and Index may not work properly."/>
 
@@ -158,6 +162,7 @@
         <java jar="${html.pdf.formatter.path}" fork="yes">
             <arg line="-s ${css.file}"/>
             <arg line="-a"/>
+            <arg line="-j ${common.javascript.file} false"/>
             <arg line="${xhtml.file}"/>
             <arg line="${output.file}"/>
             <dita:extension id="xsl.pdf-css-page.pdfreactor.param" behavior="org.dita.dost.platform.InsertAction"/>
