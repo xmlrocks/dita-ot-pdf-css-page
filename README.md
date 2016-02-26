@@ -3,9 +3,9 @@ dita-ot-pdf-css-page
 
 DITA Open Toolkit plugin to generate PDF output using CSS Paged Media.
 
-| Branch  | Build status |
-| - | - |
-| master  | [![Build Status](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page.svg?branch=master)](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page)  |
+| Branch | Build status |
+| --- | --- |
+| master | [![Build Status](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page.svg?branch=master)](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page)  |
 | develop  | [![Build Status](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page.svg?branch=develop)](https://travis-ci.org/xmlrocks/dita-ot-pdf-css-page)  |
 
 ## Installation
