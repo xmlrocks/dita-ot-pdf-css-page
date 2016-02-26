@@ -1,0 +1,65 @@
+<project name="dita-ot-pdf-css-page">
+
+    <description>Buildfile for Travis-CI.</description>
+
+    <property file="build.properties"/>
+    
+    <available property="dita-ot.present" file="${dita-ot.dir}" type="dir"/>
+
+    <available property="saxon.present" file="${saxon.jar}" type="file"/>
+
+    <available property="xmlresolver.present" file="${xmlresolver.jar}" type="file"/>
+
+    <available property="xspec.present" file="${xspec.dir}" type="dir"/>
+
+    <target name="deps" depends="prepare, dita-ot, saxon, xmlresolver, xspec"/>
+
+    <target name="prepare">
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <target name="dita-ot" unless="dita-ot.present">
+        <get src="${dita-ot.src}" dest="${build.dir}"/>
+        <untar dest="${build.dir}" src="${build.dir}/${dita-ot.tar.gz}" compression="gzip"/>
+        <delete file="${build.dir}/${dita-ot.tar.gz}"/>
+        <copy todir="${dita-ot.dir}/plugins/rocks.xml.pdf.css.page">
+            <fileset dir="rocks.xml.pdf.css.page"/>
+        </copy>
+        <exec executable="${dita-ot.dir}/bin/dita">
+            <arg line="-install"/>
+        </exec>
+    </target>
+
+    <target name="saxon" unless="saxon.present">
+        <get src="${saxon.src}" dest="${build.dir}"/>
+    </target>
+
+    <target name="xmlresolver" unless="xmlresolver.present">
+        <get src="${xmlresolver.src}" dest="${build.dir}"/>
+        <unzip src="${build.dir}/resolver-eps.zip" dest="${build.dir}">
+            <patternset>
+                <include name="**/*.jar"/>
+            </patternset>
+        </unzip>
+        <copy file="${build.dir}/build/${xmlresolver.name}" todir="${build.dir}"/>
+        <delete file="${build.dir}/resolver-eps.zip"/>
+        <delete dir="${build.dir}/build"/>
+    </target>
+
+    <target name="xspec" unless="xspec.present">
+        <get src="${xspec.src}" dest="${build.dir}"/>
+        <unzip src="${xspec.zip}" dest="${build.dir}"/>
+        <delete file="${xspec.zip}"/>
+    </target>
+
+    <target name="test">
+        <ant antfile="${xspec.dir}/build.xml" inheritall="false" usenativebasedir="false">
+            <property name="xspec.xml" location="test/suite.xspec"/>
+            <property name="catalog.xml" location="${dita-ot.dir}/catalog-dita.xml"/>
+            <propertyset>
+                <propertyref name="saxon.jar"/>
+                <propertyref name="xmlresolver.jar"/>
+            </propertyset>
+        </ant>
+    </target>
+</project>
