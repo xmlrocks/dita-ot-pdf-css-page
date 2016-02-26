@@ -3,7 +3,7 @@
     <description>Buildfile for Travis-CI.</description>
 
     <property file="build.properties"/>
-    
+
     <available property="dita-ot.present" file="${dita-ot.dir}" type="dir"/>
 
     <available property="saxon.present" file="${saxon.jar}" type="file"/>
@@ -25,7 +25,8 @@
         <copy todir="${dita-ot.dir}/plugins/rocks.xml.pdf.css.page">
             <fileset dir="rocks.xml.pdf.css.page"/>
         </copy>
-        <exec executable="${dita-ot.dir}/bin/dita">
+        <chmod file="${dita-ot.executable}" perm="+x"/>
+        <exec executable="${dita-ot.executable}">
             <arg line="-install"/>
         </exec>
     </target>
