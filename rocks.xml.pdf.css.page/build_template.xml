@@ -13,27 +13,28 @@
 
     <import file="dita-merge.xml"/>
 
-    <condition property="use.vivliostyle">
-        <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
+    <condition property="use.antennahouse">
+        <equals arg1="${html.pdf.formatter}" arg2="antennahouse" casesensitive="false"/>
     </condition>
 
     <condition property="use.pdfreactor">
         <equals arg1="${html.pdf.formatter}" arg2="pdfreactor" casesensitive="false"/>
     </condition>
 
-    <condition property="use.antennahouse">
-        <equals arg1="${html.pdf.formatter}" arg2="antennahouse" casesensitive="false"/>
+    <condition property="use.vivliostyle">
+        <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
     </condition>
+
 
     <target name="dita2pdf-css-page" depends="dita2pdf-css-page.init,
                                               map2pdf-css-page.merged,
                                               topic2pdf-css-page.init, map2pdf-css-page.init,
                                               pdf-css-page.dita2html,
                                               prepare.common.css, prepare.common.javascript,
-                                              run.pdfreactor, run.antennahouse, run.vivliostyle"/>
+                                              run.antennahouse, run.pdfreactor, run.vivliostyle"/>
 
     <target name="dita2pdf-css-page.init" depends="check.formatter, check.formatter.path,
-                                                   check.pdfreactor, check.vivliostyle, check.antennahouse,
+                                                   check.antennahouse, check.pdfreactor, check.vivliostyle,
                                                    check.css.file"/>
 
     <target name="check.formatter">
@@ -41,9 +42,9 @@
             <condition>
                 <not>
                     <or>
-                        <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
-                        <equals arg1="${html.pdf.formatter}" arg2="pdfreactor" casesensitive="false"/>
                         <equals arg1="${html.pdf.formatter}" arg2="antennahouse" casesensitive="false"/>
+                        <equals arg1="${html.pdf.formatter}" arg2="pdfreactor" casesensitive="false"/>
+                        <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
                     </or>
                 </not>
             </condition>
@@ -51,12 +52,22 @@
     </target>
 
     <target name="check.formatter.path">
-        <fail message="Property &quot;html.pdf.formatter.path&quot; is not set. Please, set path to the PDF formatter.">
+        <fail message="Property &quot;html.pdf.formatter.path&quot; is not set. Please, set path to the PDF Formatter.">
             <condition>
                 <not>
                     <isset property="html.pdf.formatter.path"/>
                 </not>
             </condition>
+        </fail>
+    </target>
+
+    <target name="check.antennahouse" if="${use.antennahouse}">
+        <condition property="formatter.available">
+            <available file="${html.pdf.formatter.path}"/>
+        </condition>
+
+        <fail unless="formatter.available">
+            Cannot find Antennahouse Formatter: "${html.pdf.formatter.path}". It can be purchased at: https://www.antennahouse.com/
         </fail>
     </target>
 
@@ -77,16 +88,6 @@
 
         <fail unless="formatter.available">
             Cannot find Vivliostyle Formatter: "${html.pdf.formatter.path}". It can be purchased at: http://vivliostyle.com/
-        </fail>
-    </target>
-
-    <target name="check.antennahouse" if="${use.antennahouse}">
-        <condition property="formatter.available">
-            <available file="${html.pdf.formatter.path}"/>
-        </condition>
-
-        <fail unless="formatter.available">
-            Cannot find Antennahouse Formatter: "${html.pdf.formatter.path}". It can be purchased at: https://www.antennahouse.com/
         </fail>
     </target>
 
@@ -162,14 +163,14 @@
         <copy file="${common.javascript.file}" todir="${dita.temp.dir}"/>
     </target>
 
-    <target name="run.vivliostyle" if="use.vivliostyle">
-        <echo message="[WARN]: You are using Vivliostyle. Please notice that TOC and Index may not work properly."/>
+    <target name="run.antennahouse" if="use.antennahouse">
+        <echo message="[WARN]: You are using Antennahouse. Please notice that Index may not work properly."/>
 
         <exec executable="${html.pdf.formatter.path}">
-            <arg line="${xhtml.file}"/>
-            <arg line="--output=${output.file}"/>
-            <arg line="--style=${css.file}"/>
-            <dita:extension id="xsl.pdf-css-page.vivlio.param" behavior="org.dita.dost.platform.InsertAction"/>
+            <arg line="-d ${xhtml.file}"/>
+            <arg line="-o ${output.file}"/>
+            <arg line="-s ${css.file}"/>
+            <dita:extension id="xsl.pdf-css-page.antennahouse.param" behavior="org.dita.dost.platform.InsertAction"/>
         </exec>
     </target>
 
@@ -184,14 +185,14 @@
         </java>
     </target>
 
-    <target name="run.antennahouse" if="use.antennahouse">
-        <echo message="[WARN]: You are using Antennahouse. Please notice that Index may not work properly."/>
+    <target name="run.vivliostyle" if="use.vivliostyle">
+        <echo message="[WARN]: You are using Vivliostyle. Please notice that TOC and Index may not work properly."/>
 
         <exec executable="${html.pdf.formatter.path}">
-            <arg line="-d ${xhtml.file}"/>
-            <arg line="-o ${output.file}"/>
-            <arg line="-s ${css.file}"/>
-            <dita:extension id="xsl.pdf-css-page.antennahouse.param" behavior="org.dita.dost.platform.InsertAction"/>
+            <arg line="${xhtml.file}"/>
+            <arg line="--output=${output.file}"/>
+            <arg line="--style=${css.file}"/>
+            <dita:extension id="xsl.pdf-css-page.vivlio.param" behavior="org.dita.dost.platform.InsertAction"/>
         </exec>
     </target>
 
