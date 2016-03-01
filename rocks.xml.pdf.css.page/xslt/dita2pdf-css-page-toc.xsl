@@ -33,35 +33,22 @@
         <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' mapgroup-d/topichead ') and @navtitle]" priority="20">
-        <ul class="bookmap/part">
-            <li class="toc-heading-1">
-                <a href="#{@id}">
-                    <xsl:apply-templates select="@navtitle"/>
-                </a>
-                <xsl:if test="*[contains(@class, ' map/topicref ')]">
-                    <ul>
-                        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
-                    </ul>
-                </xsl:if>
-            </li>
-        </ul>
+    <xsl:template match="*[contains(@class, ' mapgroup-d/topichead ')]" priority="20">
+        <xsl:call-template name="upper-toc-level">
+            <xsl:with-param name="entry-heading" select="@navtitle"/>
+        </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')] |
-                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')]"
-                  priority="10">
-        <xsl:if test="dita-ot:exist-linktext(.)">
+    <xsl:template name="upper-toc-level">
+        <xsl:param name="entry-heading" as="node()*"/>
+
+        <xsl:if test="dita-ot:exist-linktext(.) or @navtitle">
             <ul class="bookmap/part">
                 <li class="toc-heading-1">
                     <a href="#{@id}">
-                        <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
+                        <xsl:apply-templates select="$entry-heading"/>
                     </a>
-                    <xsl:if test="*[contains(@class, ' map/topicref ')]">
-                        <ul>
-                            <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
-                        </ul>
-                    </xsl:if>
+                    <xsl:call-template name="lower-toc-level"/>
                 </li>
             </ul>
         </xsl:if>
@@ -74,23 +61,33 @@
                 select="exists($element/*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' map/linktext ')])"/>
     </xsl:function>
 
+    <xsl:template name="lower-toc-level">
+        <xsl:if test="*[contains(@class, ' map/topicref ')]">
+            <ul>
+                <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
+            </ul>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template match="opentopic:map/*[contains(@class, ' map/topicref ')] |
+                         *[contains(@class, ' bookmap/frontmatter ')]/*[contains(@class, ' map/topicref ')]"
+                  priority="10">
+        <xsl:call-template name="upper-toc-level">
+            <xsl:with-param name="entry-heading" select="*[contains(@class, ' map/topicmeta ')]"/>
+        </xsl:call-template>
+    </xsl:template>
+
     <xsl:template match="*[contains(@class, ' map/topicmeta ')]">
         <xsl:apply-templates select="*[contains(@class, ' map/linktext ')]"/>
     </xsl:template>
 
-    <xsl:template match="*[contains(@class, ' map/topicref ')]">
-        <xsl:if test="dita-ot:exist-linktext(.)">
-            <li class="toc-heading-2">
-                <a href="#{@id}">
-                    <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
-                </a>
-                <xsl:if test="*[contains(@class, ' map/topicref ')]">
-                    <ul>
-                        <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
-                    </ul>
-                </xsl:if>
-            </li>
-        </xsl:if>
+    <xsl:template match="*[contains(@class, ' map/topicref ') and dita-ot:exist-linktext(.)]">
+        <li class="toc-heading-2">
+            <a href="#{@id}">
+                <xsl:apply-templates select="*[contains(@class, ' map/topicmeta ')]"/>
+            </a>
+            <xsl:call-template name="lower-toc-level"/>
+        </li>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' map/linktext ')]">

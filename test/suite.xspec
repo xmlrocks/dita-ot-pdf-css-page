@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:opentopic="http://www.idiominc.com/opentopic"
+               stylesheet="configuration.xsl">
+
+
+    <x:scenario label="TOC">
+
+        <x:scenario label="topichead+">
+            <x:context>
+                <opentopic:map>
+                    <topichead class="+ map/topicref mapgroup-d/topichead " navtitle="topichead 1"/>
+                    <topichead class="+ map/topicref mapgroup-d/topichead " navtitle="topichead 2"/>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">topichead 1</a>
+                        </li>
+                    </ul>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">topichead 2</a>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="topichead/topicref/topicmeta">
+            <x:context>
+                <opentopic:map>
+                    <topichead class="+ map/topicref mapgroup-d/topichead " navtitle="topichead">
+                        <topicref class="- map/topicref ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext</linktext>
+                            </topicmeta>
+                        </topicref>
+                    </topichead>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="toc-heading">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">topichead</a>
+                            <ul>
+                                <li class="toc-heading-2">
+                                    <a href="...">linktext</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="topichead/topicref+/topicmeta">
+            <x:context>
+                <opentopic:map>
+                    <topichead class="+ map/topicref mapgroup-d/topichead " navtitle="topichead">
+                        <topicref class="- map/topicref ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext 1</linktext>
+                            </topicmeta>
+                        </topicref>
+                        <topicref class="- map/topicref ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext 2</linktext>
+                            </topicmeta>
+                        </topicref>
+                    </topichead>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="...">
+                    <h1 class="...">...</h1>
+                    <ul class="...">
+                        <li class="...">
+                            <a href="...">...</a>
+                            <ul>
+                                <li class="toc-heading-2">
+                                    <a href="...">linktext 1</a>
+                                </li>
+                                <li class="toc-heading-2">
+                                    <a href="...">linktext 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="frontmatter/bookabstract/topicmeta">
+            <x:context>
+                <opentopic:map>
+                    <frontmatter class="- map/topicref bookmap/frontmatter ">
+                        <bookabstract class="- map/topicref bookmap/bookabstract ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext</linktext>
+                            </topicmeta>
+                        </bookabstract>
+                    </frontmatter>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">linktext</a>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="frontmatter/notices/topicmeta/topicref">
+            <x:context>
+                <opentopic:map>
+                    <frontmatter class="- map/topicref bookmap/frontmatter ">
+                        <notices class="- map/topicref bookmap/notices ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext 1</linktext>
+                            </topicmeta>
+                            <topicref class="- map/topicref ">
+                                <topicmeta class="- map/topicmeta ">
+                                    <linktext class="- map/linktext ">linktext 2</linktext>
+                                </topicmeta>
+                            </topicref>
+                        </notices>
+                    </frontmatter>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">linktext 1</a>
+                            <ul>
+                                <li class="toc-heading-2">
+                                    <a href="...">linktext 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="frontmatter/preface/topicmeta">
+            <x:context>
+                <opentopic:map>
+                    <frontmatter class="- map/topicref bookmap/frontmatter ">
+                        <preface class="- map/topicref bookmap/preface ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext</linktext>
+                            </topicmeta>
+                        </preface>
+                    </frontmatter>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">linktext</a>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="chapter/topicmeta/topicref">
+            <x:context>
+                <opentopic:map>
+                    <chapter class="- map/topicref bookmap/chapter ">
+                        <topicmeta class="- map/topicmeta ">
+                            <linktext class="- map/linktext ">linktext 1</linktext>
+                        </topicmeta>
+                        <topicref class="- map/topicref ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext 2</linktext>
+                            </topicmeta>
+                        </topicref>
+                    </chapter>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">linktext 1</a>
+                            <ul>
+                                <li class="toc-heading-2">
+                                    <a href="...">linktext 2</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="appendix/topicmeta">
+            <x:context>
+                <opentopic:map>
+                    <appendix class="- map/topicref bookmap/appendix ">
+                        <topicmeta class="- map/topicmeta ">
+                            <linktext class="- map/linktext ">linktext</linktext>
+                        </topicmeta>
+                    </appendix>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="...">...</h1>
+                    <ul class="bookmap/part">
+                        <li class="toc-heading-1">
+                            <a href="...">linktext</a>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+        <x:scenario label="topicref/topicref">
+            <x:context>
+                <opentopic:map>
+                    <topichead class="+ map/topicref mapgroup-d/topichead " navtitle="topichead">
+                        <topicref class="- map/topicref ">
+                            <topicmeta class="- map/topicmeta ">
+                                <linktext class="- map/linktext ">linktext</linktext>
+                            </topicmeta>
+                            <topicref class="- map/topicref ">
+                                <topicmeta class="- map/topicmeta ">
+                                    <linktext class="- map/linktext ">linktext 2</linktext>
+                                </topicmeta>
+                            </topicref>
+                        </topicref>
+                    </topichead>
+                </opentopic:map>
+            </x:context>
+
+            <x:expect>
+                <div class="toc">
+                    <h1 class="toc-heading">...</h1>
+                    <ul class="...">
+                        <li class="...">
+                            <a href="...">...</a>
+                            <ul>
+                                <li class="...">
+                                    <a href="...">linktext</a>
+                                    <ul>
+                                        <li class="toc-heading-2">
+                                            <a href="...">linktext 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </x:expect>
+        </x:scenario>
+
+    </x:scenario>
+
+</x:description>

@@ -1,2 +1,6 @@
 # IntelliJ IDEA project files.
 *.iml
+
+build
+# Test result files.
+test/xspec

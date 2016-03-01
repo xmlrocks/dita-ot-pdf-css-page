@@ -78,10 +78,10 @@ div.book-title h1.title-page {
     text-decoration: none;
   }
   div.toc a::after {
-    content: leader(dotted) target-counter(-ro-attr(href url), page);
+    content: leader(dotted) target-counter(attr(href url), page);
   }
   div.index a::after {
-    content: target-counter(-ro-attr(href url), page);
+    content: target-counter(attr(href url), page);
   }
 }
 
