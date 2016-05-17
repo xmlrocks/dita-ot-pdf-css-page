@@ -9,18 +9,18 @@
 
     <xsl:param name="generate-index" as="xs:boolean"/>
 
-    <xsl:template
-            match="*[contains(@class, ' topic/title ') and following-sibling::*[contains(@class, ' topic/prolog ')]]">
+    <xsl:template match="*[contains(@class, ' topic/title ') and
+                         following-sibling::*[contains(@class, ' topic/prolog ')]]">
         <xsl:apply-templates select="following-sibling::*[contains(@class, ' topic/prolog ')]" mode="create-anchor"/>
         <xsl:next-match/>
     </xsl:template>
 
     <xsl:template match="*[contains(@class, ' topic/prolog ')]" mode="create-anchor">
-        <xsl:apply-templates select="*[contains(@class, ' topic/metadata ')]//
+        <xsl:apply-templates mode="create-anchor"
+                             select="*[contains(@class, ' topic/metadata ')]//
                                      *[contains(@class, ' topic/keywords ')]//
                                      opentopic-index:index.entry//
-                                     opentopic-index:refID"
-                             mode="create-anchor"/>
+                                     opentopic-index:refID"/>
     </xsl:template>
 
     <xsl:template mode="create-anchor"
@@ -28,13 +28,13 @@
                          *[contains(@class, ' topic/keywords ')]//
                          opentopic-index:index.entry//
                          opentopic-index:refID">
-        <a id="{concat(@value, generate-id())}"/>
+        <p id="{concat(@value, generate-id())}"/>
     </xsl:template>
 
     <xsl:template match="opentopic-index:index.groups"/>
 
     <xsl:template match="opentopic-index:index.groups[element()]" priority="10">
-        <div class="index">
+        <div id="index-chapter">
             <h1 id="index">Index</h1>
             <xsl:apply-templates/>
         </div>

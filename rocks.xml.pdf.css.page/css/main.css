@@ -53,7 +53,7 @@
 }
 
 div.book-title {
-  break-after: always;
+  page-break-after: always;
 }
 
 div.book-title h1.title-page {
@@ -78,15 +78,15 @@ div.book-title h1.title-page {
     text-decoration: none;
   }
   div.toc a::after {
-    content: leader(dotted) target-counter(attr(href url), page);
+   content: leader(".") target-counter(attr(href), page);
   }
-  div.index a::after {
-    content: target-counter(attr(href url), page);
+  #index-chapter a::after {
+    content: target-counter(attr(href), page);
   }
 }
 
 div.toc {
-  break-after: always;
+  page-break-after: always;
 }
 
 div.toc li.toc-heading-1 {
@@ -101,7 +101,7 @@ div.toc li.toc-heading-2 {
 }
 
 div.toc > h2 {
-  break-before: avoid;
+  page-break-before: avoid;
 }
 
 div.toc div {
@@ -109,19 +109,19 @@ div.toc div {
 }
 
 div.toc ul,
-div.index ul {
+#index-chapter ul {
   list-style-type: none;
 }
 
 h1 {
   font-size: 300%;
   padding-bottom: 15pt;
-  break-before: always;
-  string-set: book-chapter self;
+  page-break-before: always;
+  string-set: book-chapter content();
 }
 
 h2 {
-  string-set: sub-chapter self;
+  string-set: sub-chapter content();
 }
 
 div.index h3 {
@@ -129,7 +129,7 @@ div.index h3 {
 }
 
 table caption {
-  break-after: avoid;
+  page-break-after: avoid;
 }
 
 img{
