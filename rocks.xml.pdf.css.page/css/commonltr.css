@@ -28,7 +28,6 @@ h6 {
 h1 {
   font-size: 24pt;
   margin-bottom: 0.5cm;
-  break-before: page;
 }
 
 h2 {
@@ -57,11 +56,6 @@ li {
 
 p {
   text-align: justify;
-}
-
-a {
-  color: #e41d03;
-  text-decoration: underline;
 }
 
 barcode,
