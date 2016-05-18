@@ -205,6 +205,7 @@
 
         <exec executable="${html.pdf.formatter.path}" output="${index.pages}">
             <arg line="-s ${prince.css.file}"/>
+            <arg line="-s ${css.file}"/>
             <arg line="--javascript"/>
             <arg line="--script ${prince.javascript.file-1}"/>
             <arg line="${xhtml.file}"/>
