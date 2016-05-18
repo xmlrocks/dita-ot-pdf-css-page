@@ -7,26 +7,28 @@ function index(href, counter) {
 
 function dumpIndex() {
     console.log("var refs = {");
-
-    var keys = [];
-
     var index = document.getElementById("index-chapter");
-    var anchors = index.getElementsByTagName("a");
+    if (index) {
+        var keys = [];
 
-    for (var i = 0; i < anchors.length; ++i) {
-        var anchor = anchors[i];
-        var href = anchor.getAttribute("href");
+        var index = document.getElementById("index-chapter");
+        var anchors = index.getElementsByTagName("a");
 
-        if (refs[href]) {
-            keys.push(href);
+        for (var i = 0; i < anchors.length; ++i) {
+            var anchor = anchors[i];
+            var href = anchor.getAttribute("href");
+
+            if (refs[href]) {
+                keys.push(href);
+            }
         }
-    }
 
-    keys.sort();
+        keys.sort();
 
-    for (i in keys) {
-        var comma = (i < keys.length - 1 ? "," : "");
-        console.log("\"" + keys[i] + "\": " + refs[keys[i]] + comma);
+        for (i in keys) {
+            var comma = (i < keys.length - 1 ? "," : "");
+            console.log("\"" + keys[i] + "\": " + refs[keys[i]] + comma);
+        }
     }
 
     console.log("};");
