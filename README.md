@@ -41,4 +41,4 @@ dita -f pdf-css-page -i input-file -o output-dir \
     -Dcss.file=css-file
 ```
 
-The plugin was tested with DITA-OT 2.1, 2.2, 2.3, AH Formatter V6, Prince 10, PDFReactor 8 and Vivlistyle Formatter 2016.1.
+The plugin was tested with DITA-OT 2.1, 2.2, AH Formatter V6, Prince 10, PDFReactor 8 and Vivlistyle Formatter 2016.1.
