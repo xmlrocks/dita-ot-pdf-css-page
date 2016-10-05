@@ -21,6 +21,7 @@
             <val default="true">pdfreactor</val>
             <val>vivliostyle</val>
             <val>antennahouse</val>
+            <val>prince</val>
         </param>
         <param name="pdf.formatter.path" type="file"
                desc="Specifies the location of the PDF formatter's executable."/>

@@ -13,19 +13,23 @@
 
     <import file="dita-merge.xml"/>
 
-    <condition property="use.antennahouse">
+    <condition property="rocks.xml.pdf.css.page">
+        <equals arg1="${transtype}" arg2="pdf-css-page" casesensitive="false"/>
+    </condition>
+
+    <condition property="antennahouse">
         <equals arg1="${html.pdf.formatter}" arg2="antennahouse" casesensitive="false"/>
     </condition>
 
-    <condition property="use.prince">
+    <condition property="prince">
         <equals arg1="${html.pdf.formatter}" arg2="prince" casesensitive="false"/>
     </condition>
 
-    <condition property="use.pdfreactor">
+    <condition property="pdfreactor">
         <equals arg1="${html.pdf.formatter}" arg2="pdfreactor" casesensitive="false"/>
     </condition>
 
-    <condition property="use.vivliostyle">
+    <condition property="vivliostyle">
         <equals arg1="${html.pdf.formatter}" arg2="vivliostyle" casesensitive="false"/>
     </condition>
 
@@ -42,7 +46,7 @@
                                                    check.css.file"/>
 
     <target name="check.formatter">
-        <fail message="Unsupported &quot;html.pdf.formatter&quot; is set. Valid options are: pdfreactor, vivliostyle, antennahouse.">
+        <fail message="Unsupported &quot;html.pdf.formatter&quot; is set. Valid options are: pdfreactor, vivliostyle, antennahouse, prince.">
             <condition>
                 <not>
                     <or>
@@ -116,7 +120,7 @@
         </fail>
     </target>
 
-    <target name="pdf-css-page.image.dir.init">
+    <target name="pdf-css-page.image.dir.init" if="rocks.xml.pdf.css.page">
         <property name="preprocess.copy-html.skip" value="yes"/>
         <condition property="copy-image.todir" value="${dita.temp.dir}/${uplevels}" else="${output.dir}">
             <equals arg1="${generate.copy.outer}" arg2="1"/>
@@ -189,7 +193,7 @@
         <copy file="${prince.javascript.file-2}" todir="${dita.temp.dir}"/>
     </target>
 
-    <target name="run.antennahouse" if="use.antennahouse">
+    <target name="run.antennahouse" if="antennahouse">
         <echo message="[WARN]: You are using Antennahouse. Please notice that Index may not work properly."/>
 
         <exec executable="${html.pdf.formatter.path}">
@@ -200,7 +204,7 @@
         </exec>
     </target>
 
-    <target name="run.prince" if="use.prince">
+    <target name="run.prince" if="prince">
         <property name="index.pages" value="${dita.temp.dir}${file.separator}index.pages.js"/>
 
         <exec executable="${html.pdf.formatter.path}" output="${index.pages}">
@@ -224,7 +228,7 @@
         </exec>
     </target>
 
-    <target name="run.pdfreactor" if="use.pdfreactor">
+    <target name="run.pdfreactor" if="pdfreactor">
         <java jar="${html.pdf.formatter.path}" fork="yes">
             <arg line="-s ${css.file}"/>
             <arg line="-a"/>
@@ -235,7 +239,7 @@
         </java>
     </target>
 
-    <target name="run.vivliostyle" if="use.vivliostyle">
+    <target name="run.vivliostyle" if="vivliostyle">
         <echo message="[WARN]: You are using Vivliostyle. Please notice that TOC and Index may not work properly."/>
 
         <exec executable="${html.pdf.formatter.path}">

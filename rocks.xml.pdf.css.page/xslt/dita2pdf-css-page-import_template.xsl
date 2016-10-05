@@ -12,4 +12,6 @@
     <xsl:import href="dita2pdf-css-page-toc.xsl"/>
     <xsl:import href="dita2pdf-css-page-index.xsl"/>
 
+    <xsl:import href="xslhtml/dita2pdf-css-page-syntax-braces.xsl.xsl"/>
+
 </xsl:stylesheet>
