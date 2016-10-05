@@ -5,7 +5,7 @@
 
 
     <xsl:template match="*[contains(@class,' pr-d/syntaxdiagram ')]">
-        <div style="display: block; padding: 2pt; color: maroon; margin-bottom: 6pt;">
+        <div style="display: block; border: 1pt black solid; padding: 2pt; color: maroon; margin-bottom: 6pt;">
             <xsl:apply-templates mode="process-syntaxdiagram"/>
         </div>
     </xsl:template>
