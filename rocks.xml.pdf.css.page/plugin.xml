@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="rocks.xml.pdf.css.page">
 
-    <extension-point id="xsl.pdf-css-page" name="PDF CSS pagination"/>
     <extension-point id="xsl.pdf-css-page.override" name="PDF CSS XSL override"/>
     <extension-point id="xsl.pdf-css-page.xslt.param" name="PDF CSS XSLT parameters"/>
     <extension-point id="xsl.pdf-css-page.antennahouse.param" name="Antennahouse command parameters"/>
