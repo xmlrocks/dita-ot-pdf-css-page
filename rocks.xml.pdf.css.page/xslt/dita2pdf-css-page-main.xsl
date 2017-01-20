@@ -69,6 +69,34 @@
         <xsl:value-of select="$newline"/>
     </xsl:template>
 
+    <xsl:template match="*" mode="addContentToHtmlBodyElement">
+        <main role="main">
+            <article role="article">
+                <xsl:attribute name="aria-labelledby">
+                    <xsl:apply-templates select="*[contains(@class,' topic/title ')] |
+                                       self::dita/*[1]/*[contains(@class,' topic/title ')]" mode="return-aria-label-id"/>
+                </xsl:attribute>
+                <xsl:apply-templates select="*[contains(@class, ' ditaot-d/ditaval-startprop ')]" mode="out-of-line"/>
+
+                <xsl:apply-templates select="opentopic:map"/>
+
+                <div id="body-content">
+                    <xsl:apply-templates select="* except opentopic:map"/>
+                </div>
+
+                <!-- this will include all things within topic; therefore, -->
+                <!-- title content will appear here by fall-through -->
+                <!-- followed by prolog (but no fall-through is permitted for it) -->
+                <!-- followed by body content, again by fall-through in document order -->
+                <!-- followed by related links -->
+                <!-- followed by child topics by fall-through -->
+                <xsl:call-template name="gen-endnotes"/>    <!-- include footnote-endnotes -->
+                <xsl:apply-templates select="*[contains(@class, ' ditaot-d/ditaval-endprop ')]" mode="out-of-line"/>
+            </article>
+        </main>
+    </xsl:template>
+
+
     <xsl:template name="create-book-title">
         <div class="book-title">
             <h1 class="title-page">

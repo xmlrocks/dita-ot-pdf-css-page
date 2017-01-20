@@ -282,4 +282,18 @@
 
     </x:scenario>
 
+    <x:scenario label="body">
+
+        <x:scenario label="body-content-wrapper">
+            <x:context>
+                <bookmap class="- map/map bookmap/bookmap " title="test-title">
+                    <task class="- topic/topic task/task " />
+                </bookmap>
+            </x:context>
+
+            <x:expect test="exists(//div[@id = 'body-content'])"/>
+        </x:scenario>
+
+    </x:scenario>
+
 </x:description>
