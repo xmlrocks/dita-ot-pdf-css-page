@@ -8,6 +8,7 @@
     <xsl:import href="dita2pdf-css-page-main.xsl"/>
     <xsl:import href="dita2pdf-css-page-toc.xsl"/>
     <xsl:import href="dita2pdf-css-page-index.xsl"/>
+    <xsl:import href="dita2pdf-css-page-head.xsl"/>
 
     <xsl:import href="xslhtml/dita2pdf-css-page-syntax-braces.xsl.xsl"/>
 

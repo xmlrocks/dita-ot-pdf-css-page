@@ -5,18 +5,41 @@
                 xmlns:ditamsg="http://dita-ot.sourceforge.net/ns/200704/ditamsg"
                 exclude-result-prefixes="#all">
 
+
+
     <xsl:template match="*[contains(@class, ' map/map ')]">
         <xsl:apply-templates select="." mode="root_element"/>
     </xsl:template>
 
-    <xsl:template name="generateChapterTitle">
-        <!-- Title processing - special handling for short descriptions -->
-        <title>
-            <xsl:call-template name="gen-user-panel-title-pfx"/> <!-- hook for a user-XSL title prefix -->
-            <xsl:call-template name="gen-book-title"/>
-        </title>
+
+    <xsl:template match="*" mode="chapterBody">
+        <body>
+            <xsl:apply-templates select="." mode="addAttributesToHtmlBodyElement"/>
+            <xsl:if test="contains(@class, ' map/map ')">
+                <xsl:call-template name="create-book-title"/>
+            </xsl:if>
+            <xsl:call-template name="setaname"/>  <!-- For HTML4 compatibility, if needed -->
+            <xsl:value-of select="$newline"/>
+            <xsl:apply-templates select="." mode="addHeaderToHtmlBodyElement"/>
+
+            <!-- Include a user's XSL call here to generate a toc based on what's a child of topic -->
+            <xsl:call-template name="gen-user-sidetoc"/>
+
+            <xsl:apply-templates select="." mode="addContentToHtmlBodyElement"/>
+            <xsl:apply-templates select="." mode="addFooterToHtmlBodyElement"/>
+        </body>
         <xsl:value-of select="$newline"/>
     </xsl:template>
+
+
+    <xsl:template name="create-book-title">
+        <div class="book-title">
+            <h1 class="title-page">
+                <xsl:call-template name="gen-book-title"/>
+            </h1>
+        </div>
+    </xsl:template>
+
 
     <xsl:template name="gen-book-title">
         <xsl:variable name="maintitle">
@@ -50,24 +73,16 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="*" mode="chapterBody">
-        <body>
-            <xsl:apply-templates select="." mode="addAttributesToHtmlBodyElement"/>
-            <xsl:if test="contains(@class, ' map/map ')">
-                <xsl:call-template name="create-book-title"/>
-            </xsl:if>
-            <xsl:call-template name="setaname"/>  <!-- For HTML4 compatibility, if needed -->
-            <xsl:value-of select="$newline"/>
-            <xsl:apply-templates select="." mode="addHeaderToHtmlBodyElement"/>
 
-            <!-- Include a user's XSL call here to generate a toc based on what's a child of topic -->
-            <xsl:call-template name="gen-user-sidetoc"/>
-
-            <xsl:apply-templates select="." mode="addContentToHtmlBodyElement"/>
-            <xsl:apply-templates select="." mode="addFooterToHtmlBodyElement"/>
-        </body>
+    <xsl:template name="generateChapterTitle">
+        <!-- Title processing - special handling for short descriptions -->
+        <title>
+            <xsl:call-template name="gen-user-panel-title-pfx"/> <!-- hook for a user-XSL title prefix -->
+            <xsl:call-template name="gen-book-title"/>
+        </title>
         <xsl:value-of select="$newline"/>
     </xsl:template>
+
 
     <xsl:template match="*" mode="addContentToHtmlBodyElement">
         <main role="main">
@@ -96,14 +111,6 @@
         </main>
     </xsl:template>
 
-
-    <xsl:template name="create-book-title">
-        <div class="book-title">
-            <h1 class="title-page">
-                <xsl:call-template name="gen-book-title"/>
-            </h1>
-        </div>
-    </xsl:template>
 
     <xsl:template match="attribute() | node()" mode="create-id">
         <xsl:copy>
