@@ -35,7 +35,11 @@
 
     <xsl:template match="opentopic-index:index.groups[element()]" priority="10">
         <div id="index-chapter">
-            <h1 id="index">Index</h1>
+            <h1 id="index">
+                <xsl:call-template name="getVariable">
+                    <xsl:with-param name="id" select="'Index'"/>
+                </xsl:call-template>
+            </h1>
             <xsl:apply-templates/>
         </div>
     </xsl:template>

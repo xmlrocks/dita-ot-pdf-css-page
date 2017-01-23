@@ -17,12 +17,20 @@
 
     <xsl:template match="opentopic:map">
         <div class="toc">
-            <h1 class="toc-heading">Table of Contents</h1>
+            <h1 class="toc-heading">
+                <xsl:call-template name="getVariable">
+                    <xsl:with-param name="id" select="'Table of Contents'"/>
+                </xsl:call-template>
+            </h1>
             <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]"/>
             <xsl:if test="exists(../opentopic-index:index.groups/element()) and $generate-index">
                 <ul class="index">
                     <li class="toc-heading-1">
-                        <a href="#index">Index</a>
+                        <a href="#index">
+                            <xsl:call-template name="getVariable">
+                                <xsl:with-param name="id" select="'Index'"/>
+                            </xsl:call-template>
+                        </a>
                     </li>
                 </ul>
             </xsl:if>
