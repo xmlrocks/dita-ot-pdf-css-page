@@ -141,7 +141,7 @@
     </target>
 
     <target name="map2pdf-css-page.init" unless="noMap">
-        <property name="dita.file" value="${dita.temp.dir}${file.separator}stage1a.xml"/>
+        <property name="dita.file" value="${dita.temp.dir}${file.separator}stage1.xml"/>
 
         <property name="xhtml.file" value="${dita.temp.dir}${file.separator}${dita.map.filename.root}.xhtml"/>
 

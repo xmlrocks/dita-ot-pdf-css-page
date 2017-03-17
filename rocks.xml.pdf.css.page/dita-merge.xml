@@ -59,7 +59,6 @@
                                                              pdf-css-page.transform.topic2fo"/>
 
     <target name="pdf-css-page.transform.topic2fo" depends="transform.topic2fo.init,
-                                                            transform.topic2fo.index,
-                                                            transform.topic2fo.flagging"/>
+                                                            transform.topic2fo.index"/>
 
 </project>
