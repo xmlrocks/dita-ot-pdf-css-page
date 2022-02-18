@@ -126,7 +126,27 @@
             <equals arg1="${generate.copy.outer}" arg2="1"/>
         </condition>
         <copy todir="${dita.temp.dir}/${uplevels}">
-            <fileset dir="${user.input.dir}" includesfile="${dita.temp.dir}/${imagefile}" />
+            <fileset dir="${user.input.dir}">
+                <include name="**/*.svg"/>
+                <include name="**/*.SVG"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.JPG"/>
+                <include name="**/*.jpeg"/>
+                <include name="**/*.JPEG"/>
+                <include name="**/*.png"/>
+                <include name="**/*.PNG"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.GIF"/>
+                <include name="**/*.pdf"/>
+                <include name="**/*.tif"/>
+                <include name="**/*.TIF"/>
+                <include name="**/*.tiff"/>
+                <include name="**/*.TIFF"/>
+                <include name="**/*.bmp"/>
+                <include name="**/*.BMP"/>
+                <include name="**/*.ico"/>
+                <include name="**/*.ICO"/>
+            </fileset>
         </copy>
     </target>
 
